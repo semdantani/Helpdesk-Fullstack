@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\HelpdeskAPI",
+    "\\HelpdeskAPI\\Controllers",
+    "\\HelpdeskAPI\\DTOs",
+    "\\HelpdeskAPI\\Hubs",
+    "\\HelpdeskAPI\\Models"
+  ],
+  "SelectedNode": "\\HelpdeskAPI\\Program.cs",
+  "PreviewInSolutionExplorer": false
+}
