@@ -17,7 +17,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "https://localhost:7225/api/Auth/login",
+        "http://helpdeskapi-sem.somee.com/api/Auth/login",
         {
           email: email,
           password: password,

@@ -11,7 +11,7 @@ const useComplaintStore = create((set, get) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await axios.get(
-        "https://localhost:7225/api/Complaints",
+        "http://helpdeskapi-sem.somee.com/api/Complaints",
         {
           headers: { Authorization: `Bearer ${token}` },
         },
@@ -25,7 +25,7 @@ const useComplaintStore = create((set, get) => ({
   updateStatus: async (id, newStatus, solutionText, token) => {
     try {
       await axios.put(
-        `https://localhost:7225/api/Complaints/${id}/status`,
+        `http://helpdeskapi-sem.somee.com/api/Complaints/${id}/status`,
         {
           status: newStatus,
           solution: solutionText, // Backend ko solution bhej rahe hain
@@ -47,9 +47,12 @@ const useComplaintStore = create((set, get) => ({
 
   deleteComplaint: async (id, token) => {
     try {
-      await axios.delete(`https://localhost:7225/api/Complaints/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.delete(
+        `http://helpdeskapi-sem.somee.com/api/Complaints/${id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
 
       set((state) => ({
         complaints: state.complaints.filter((c) => c.id !== id),

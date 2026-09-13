@@ -60,7 +60,7 @@ export default function Dashboard() {
 
     try {
       const response = await axios.get(
-        `https://localhost:7225/api/Complaints/${currentComplaint.id}/ai-solution`,
+        `http://helpdeskapi-sem.somee.com/api/Complaints/${currentComplaint.id}/ai-solution`,
         {
           headers: { Authorization: `Bearer ${token}` },
         },

@@ -19,7 +19,7 @@ export default function CreateComplaint() {
 
       // Backend api/Complaints par POST request bhej rahe hain
       await axios.post(
-        "https://localhost:7225/api/Complaints",
+        "http://helpdeskapi-sem.somee.com/api/Complaints",
         {
           title: title,
           description: description,

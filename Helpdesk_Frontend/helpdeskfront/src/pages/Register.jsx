@@ -18,7 +18,7 @@ const Register = () => {
 
     try {
       // Backend ke register API ko call kar rahe hain
-      await axios.post("https://localhost:7225/api/Auth/register", {
+      await axios.post("http://helpdeskapi-sem.somee.com/api/Auth/register", {
         name: name,
         email: email,
         password: password,
