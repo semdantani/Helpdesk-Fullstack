@@ -95,7 +95,7 @@ namespace HelpdeskAPI.Controllers
                     complaint.Solution = model.Solution;
                 }
 
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
                 await _hubContext.Clients.All.SendAsync("ReceiveStatusUpdate", complaint);
 
                 return Ok(complaint);
