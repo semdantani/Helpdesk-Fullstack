@@ -25,22 +25,29 @@ namespace HelpdeskAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllComplaints()
+        public async Task<IActionResult> GetAllComplaints()
         {
             try
             {
                 var userRole = User.FindFirstValue(ClaimTypes.Role);
                 var userIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+                if (string.IsNullOrEmpty(userIdStr))
+                {
+                    return Unauthorized();
+                }
+
                 if (userRole == "Admin")
                 {
-                    var allComplaints = _context.Complaints.ToList();
+                    var allComplaints = await _context.Complaints.ToListAsync();
                     return Ok(allComplaints);
                 }
                 else
                 {
                     int userId = int.Parse(userIdStr);
-                    var userComplaints = _context.Complaints.Where(c => c.UserId == userId).ToList();
+                    var userComplaints = await _context.Complaints
+                        .Where(c => c.UserId == userId)
+                        .ToListAsync();
                     return Ok(userComplaints);
                 }
             }
@@ -54,7 +61,7 @@ namespace HelpdeskAPI.Controllers
         public async Task<IActionResult> CreateComplaint(CreateComplaintDto request)
         {
             var userIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userIdStr == null)
+            if (string.IsNullOrEmpty(userIdStr))
             {
                 return Unauthorized();
             }
@@ -65,6 +72,7 @@ namespace HelpdeskAPI.Controllers
                 Title = request.Title,
                 Description = request.Description,
                 UserId = userId,
+                Status = "Pending" 
             };
 
             _context.Complaints.Add(complaint);
@@ -76,6 +84,7 @@ namespace HelpdeskAPI.Controllers
         }
 
         [HttpPut("{id}/status")]
+        [Authorize(Roles = "Admin")] // Restricted to Admin only
         public async Task<IActionResult> UpdateStatus(int id, [FromBody] StatusUpdateDto model)
         {
             try
@@ -86,10 +95,8 @@ namespace HelpdeskAPI.Controllers
                     return NotFound("Complaint not found");
                 }
 
-                
                 complaint.Status = model.Status;
 
-                
                 if (!string.IsNullOrEmpty(model.Solution))
                 {
                     complaint.Solution = model.Solution;
@@ -107,18 +114,19 @@ namespace HelpdeskAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteComplaint(int id)
+        [Authorize(Roles = "Admin")] 
+        public async Task<IActionResult> DeleteComplaint(int id)
         {
             try
             {
-                var complaint = _context.Complaints.Find(id);
+                var complaint = await _context.Complaints.FindAsync(id);
                 if (complaint == null)
                 {
                     return NotFound(new { message = "Complaint Not Found" });
                 }
 
                 _context.Complaints.Remove(complaint);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 return Ok(new { message = "Complaint Deleted Successfully" });
             }
@@ -157,10 +165,9 @@ namespace HelpdeskAPI.Controllers
         }
     }
 
-
     public class StatusUpdateDto
     {
         public string Status { get; set; }
-        public string? Solution { get; set; } 
+        public string? Solution { get; set; }
     }
 }
