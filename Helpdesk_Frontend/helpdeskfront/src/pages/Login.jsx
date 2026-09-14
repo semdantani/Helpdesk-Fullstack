@@ -16,13 +16,10 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(
-        "http://helpdeskapi-sem.somee.com/api/Auth/login",
-        {
-          email: email,
-          password: password,
-        },
-      );
+      const response = await axios.post("/api/Auth/login", {
+        email: email,
+        password: password,
+      });
 
       localStorage.setItem("token", response.data.token);
 

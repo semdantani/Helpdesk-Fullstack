@@ -17,14 +17,12 @@ const Register = () => {
     setIsLoading(true);
 
     try {
-      // Backend ke register API ko call kar rahe hain
-      await axios.post("http://helpdeskapi-sem.somee.com/api/Auth/register", {
+      await axios.post("/api/Auth/register", {
         name: name,
         email: email,
         password: password,
       });
 
-      // Agar success hua toh seedha Login page par bhej do
       navigate("/login");
     } catch (error) {
       console.error(error);

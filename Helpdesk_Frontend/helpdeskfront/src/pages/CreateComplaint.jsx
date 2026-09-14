@@ -17,16 +17,15 @@ export default function CreateComplaint() {
     try {
       const token = localStorage.getItem("token");
 
-      // Backend api/Complaints par POST request bhej rahe hain
       await axios.post(
-        "http://helpdeskapi-sem.somee.com/api/Complaints",
+        "/api/Complaints",
         {
           title: title,
           description: description,
           status: "Pending",
         },
         {
-          headers: { Authorization: `Bearer ${token}` }, // Token zaroori hai!
+          headers: { Authorization: `Bearer ${token}` },
         },
       );
 

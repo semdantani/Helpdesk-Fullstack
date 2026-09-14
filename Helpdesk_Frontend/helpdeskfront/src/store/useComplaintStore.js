@@ -10,12 +10,9 @@ const useComplaintStore = create((set, get) => ({
   fetchComplaints: async (token) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(
-        "http://helpdeskapi-sem.somee.com/api/Complaints",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      const response = await axios.get("/api/Complaints", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       set({ complaints: response.data, isLoading: false });
     } catch (err) {
       set({ error: "Failed to laod cpmplaints.", isLoading: false });
@@ -25,7 +22,7 @@ const useComplaintStore = create((set, get) => ({
   updateStatus: async (id, newStatus, solutionText, token) => {
     try {
       await axios.put(
-        `http://helpdeskapi-sem.somee.com/api/Complaints/${id}/status`,
+        `/api/Complaints/${id}/status`,
         {
           status: newStatus,
           solution: solutionText, // Backend ko solution bhej rahe hain
@@ -47,12 +44,9 @@ const useComplaintStore = create((set, get) => ({
 
   deleteComplaint: async (id, token) => {
     try {
-      await axios.delete(
-        `http://helpdeskapi-sem.somee.com/api/Complaints/${id}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      await axios.delete(`/api/Complaints/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       set((state) => ({
         complaints: state.complaints.filter((c) => c.id !== id),
@@ -65,7 +59,7 @@ const useComplaintStore = create((set, get) => ({
     if (window.signalRConnection) return;
 
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl("https://localhost:7225/complaintHub")
+      .withUrl("/complaintHub")
       .withAutomaticReconnect()
       .build();
 
