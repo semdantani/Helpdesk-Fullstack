@@ -5,8 +5,12 @@
       "destination": "http://helpdeskapi-sem.somee.com/api/:path*"
     },
     {
-      "source": "/complaintHub",
-      "destination": "http://helpdeskapi-sem.somee.com/complaintHub"
+      "source": "/complaintHub/:path*",
+      "destination": "http://helpdeskapi-sem.somee.com/complaintHub/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
