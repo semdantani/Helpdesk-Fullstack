@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "http://helpdeskapi-sem.somee.com/api/:path*"
+    },
+    {
+      "source": "/complaintHub",
+      "destination": "http://helpdeskapi-sem.somee.com/complaintHub"
+    }
+  ]
+}
